@@ -1,4 +1,21 @@
 # FOR CONTINUOUS SIMUL CODE
+#
+# distr_a / distr_b : distributions for time before infection, mean as argument
+# 
+# simulation_varying_time : n_events - number of rows = some upper bound on number of events
+#                           ta, ka - mean time and infectivity params for type a
+#                           tb, kb - mean time and infectivity params for type b
+#                           pa - probability of type a -> fraction of a in population
+#                           S0- number of initial susceptibles 
+#                           E0 - number of initial exposed individuals (future infectors at start)                    
+#                           seed - set seed for testing
+# simulate: draw type and time for initial infectees -> add to PQ -> remove first event from PQ 
+#                 -> infect according to type at time -> update states and set time
+#                 ->  draw times and type for infectees -> add to PQ ... 
+#
+# draw_ka / draw_kb are not used, but allow for a potential change in infectivity based on time 
+# by multiplying w. some factor based on time interval (eg. interventions or other effects)
+
 
 distr_a <- function(ta){
   runif(1,1,2*ta-1)
@@ -27,7 +44,7 @@ draw_kb <- function(t, kb, multiplier){
 simulation_varying_time <- function(n_events, ta,ka,tb,kb,pa=0.5, S0,E0, seed = FALSE){
   require("collections")
   if(seed == TRUE){
-    set.seed(1234)     # for repeatability
+    set.seed(1234) 
   }
   times <- rep(0,n_events)
   I0 <- 0
@@ -46,11 +63,9 @@ simulation_varying_time <- function(n_events, ta,ka,tb,kb,pa=0.5, S0,E0, seed = 
     if(runif(1) < pa){
       ti <- distr_a(ta)        # draw ta from distribution
       Q$push(c("a",ti),-ti)    # add status to PQ, prioritize small times -> negate priority
-      #print("added 1 a")
     }else{
       ti <- distr_b(tb)       # draw tb from distribution
       Q$push(c("b",ti),-ti)   # add status to PQ
-      #print("added 1 b")
     }
   }
   
@@ -75,19 +90,15 @@ simulation_varying_time <- function(n_events, ta,ka,tb,kb,pa=0.5, S0,E0, seed = 
       
       # if infector of type a it infects according to ka:
       if(infector_type == "a"){
-        #print("individual of type a - ka new infections")
-        infectivity <- min(1,ka/total_population)   # OLD - not needed???
+        infectivity <- min(1,ka/total_population)   # for edge case w. small pop
         infected <- rbinom(1,S[t], infectivity)
         I[t] <- I[t] + 1
-        # else of type b and infect kb individuals:
+      # else type b:
       }else if(infector_type == "b"){
-        #print("individual of type b - kb new infections")
         infectivity <- min(1,kb/total_population)
         infected <- rbinom(1,S[t], infectivity)
-        I[t] <- I[t] - 1 # allows reading total number of a or b infectors in the epidemic by +/-
+        I[t] <- I[t] - 1 
       }
-      
-      #print(c("infect ", infected, " at row ", t))
       
       # individual has now infected ka/kb people - update state:
       S[t] <- S[t] - infected
@@ -102,18 +113,16 @@ simulation_varying_time <- function(n_events, ta,ka,tb,kb,pa=0.5, S0,E0, seed = 
           if(runif(1) < pa){
             ti <- distr_a(ta)
             Q$push(c("a",times[t]+ti),-(ti+times[t]))
-            #print(c("added 1 a ", times[t], ti, times[t] + ti))
           }else{
             ti <- distr_b(tb)
             Q$push(c("b",times[t]+ti),-(ti+times[t]))
-            #print(c("added 1 b ", times[t], ti,  times[t] + ti))
           }
         }
       }
     }
     # gc() does it matter?
   }
-  if(Q$size() != 0) print("queue not empty!") # handling?
+  if(Q$size() != 0) print("queue not empty!")
   M <- cbind(S,E,I,R,times) 
 }
 
