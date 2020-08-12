@@ -1,6 +1,17 @@
 # UTIL (PLOTTING, VISUALS, CREATE SAMPLES ETC...)
+#
+# discrete case functions  row 16 - 85
+# continuous case functions row 86 ->
 
 ## UTIL DISCRETE CASE:
+#
+# create_results: generate list of matrices using simul-function, n is length of list
+#                 other inputs arguments for simul. and size of epidemics to include in list
+#                 MAX_ITER bounds running time - could add count of accepted epidemics/total simul?
+#
+# plot_X: plot X over time for every matrix in results-list
+# plot_single plots all three (S,E+I,R) curves for one specified entry in given list 
+# arguments from and to allow plotting of specific interval instead of whole epidemic
 
 # create n trials w. given parameters
 create_results <- function(n=10,time, ta,ka,tb,kb,pa=0.5, S0,E0,I0=0,R0=0, ignore_small_epidemics=FALSE, small_frac = 0.33){
@@ -75,6 +86,16 @@ plot_single <- function(results, index, from=1, to=nrow(results[[index]])){
 ################################################################
 ## UTIL CONTINUOUS CASE:
 ############################################################
+#
+# create_results_V2: generate list of matrices using simul-function over returned time[]-vector
+#                    other params same as discrete case (see row 8)
+#
+# plot_X: same as discrete case, plots over time[] instead of rows, t0_infected sets time=0 at 
+#         time when number of infectees==t0_infected
+#
+# print_endsOf_results: first and last rows 
+# plot_infector_type: histograms of a and b over time for viewing distribution of cases
+# print_interesting: totals over all epidemics in list (per type etc.)
 
 create_results_V2 <- function(n=10,n_events, ta,ka,tb,kb,pa=0.5, S0,E0, ignore_small_epidemics=FALSE, small_frac = 0.33){
   results <- vector("list", n)
