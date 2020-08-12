@@ -7,11 +7,11 @@ TODO:
   - est OK
   - disc OK
   - util OK
-- []  check everything works (names, dependencies, later fixes, problems)
-- [] no errors!
-- [] exploratory code missing (existing discr, cont., and previous iGraph)
-- [] plots?
-- [] reproduce earlier results to check!
+- [ ]  check everything works (names, dependencies, later fixes, problems)
+- [ ] no errors!
+- [ ] exploratory code missing (existing discr, cont., and previous iGraph)
+- [ ] plots?
+- [ ] reproduce earlier results to check!
 
 ## Introduction
 This repository contains code for a summer project concerning an epidemic model including two simulation codes, plotting and utility code, estimation, as well as exploratory ramblings. All code was written in R, with some inspirations from iGraph and [2,3]
