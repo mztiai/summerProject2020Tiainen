@@ -1,8 +1,12 @@
 # summerProject2020Tiainen
 
 TODO:
-- write readme explanation for model, code, structure, references !!!HALF!!!
+- write readme explanation for model, code, structure, references OK-ish (ref and clarifcation)
 - fix comments (unnecessary and necessary additions, explanations at top for every file)
+  - cont OK
+  - est OK
+  - disc OK
+  - util OK
 - check everything works (names, dependencies, later fixes, problems)
 - no errors!
 - exploratory code missing (existing discr, cont., and previous iGraph)
