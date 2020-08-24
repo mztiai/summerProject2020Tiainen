@@ -1,0 +1,168 @@
+% Code examples and functions based on Trapman et. al. example 1.4.5.  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% FUNCTIONS %
+%
+% calcR0_N(pa,ka,pb,kb,k)
+% plot_R0_over_ka(R0_H,kb,k,ka,to)
+% R0_at_end(R0_H,kb,k,ka_end)
+% plotR0_N_over_R0_H(R0_H_input, kb, k, ka_end, to)
+
+% Using solve is slow 8or indeed impossible?). Numerical vpasolve() is
+% efficient!
+syms x
+
+% Examples to reproduce: 
+
+% Article case:
+calcR0_N(1/3,2,2/3,1,2) - 2+sqrt(3)/3;
+calcR0_N(1/3,2,2/3,2,3);
+R0_at_end(4/3,1,2,2); % still same
+
+
+R0_at_end(1.5,1,3,100000000)            % Still does not exceed two! 
+
+% All close to theoretical kappa!
+R0_at_end(1.66666,1,3,100000)           % R0_H < 1+2/3
+
+R0_at_end(1.749,1,4,100000)             % R0_H < 1+3/4
+R0_at_end(1.799,1,5,100000)             % R0_H < 1+4/5
+R0_at_end(1.83333,1,6,100000)           % R0_H < 1+5/6
+R0_at_end(1.98,1,100,100000000000)      % R0_H < 1+99/100 - agrees w. R0^N = lim 1/e_to_a
+R0_at_end(1.9899999,1,100,10000000)     % R0_H < 1+99/100
+R0_at_end(1.99899999,1,1000,10000000)   % R0_H < 1+999/1000 = 1+(1-1/k)
+R0_at_end(1.4999,1,2,100000000)         % R0_H < 1+1/2
+
+
+% kb == 2:
+R0_at_end(2.333,2,3,100000000)      % R0_H < 2+1/3
+R0_at_end(2.49999,2,4,100000000)    % R0_H < 2+2/4
+R0_at_end(2.5999,2,5,100000000)     % R0_H < 2+3/5
+R0_at_end(2.66666,2,6,100000000)    % R0_H < 2+4/6 = kb + (1-kb/k)
+
+
+R0_at_end(10.8999,10,100,100000000)     % R0_H < 10 + (1-10/100) = kb + (1-kb/k)
+R0_at_end(10.989999,10,1000,100000000)  % R0_H < kb + (1-kb/k)
+
+R0_at_end(1.89999,1,10,60);
+
+% ELBOW:
+% R0_H = 1.99... , k_b = 1, k=1000
+
+R0_at_end(1.99899999,1,1000,1000) % 16
+R0_at_end(1.99899999,1,1000,1001) % 990
+
+R0_at_end(1.83333,1,6,6) % 5.2 
+R0_at_end(1.83333,1,6,7) % 5.999
+
+% seemingly elbow located at ka=k when R0_H close to limit
+
+% testing loop:
+
+R0_H = 1.65;
+R0_N = 0;
+kb = 1;
+ka = 2; % LOWER BOUND
+k = 3;
+
+to = 60;
+R0_vec = zeros(1,to);
+
+disp(-1)
+for j = 1:to
+    pa = (R0_H-kb)/(ka-kb);
+    R0_N = calcR0_N(pa,ka,1-pa,kb,k);
+    R0_vec(j) = R0_N;
+    ka = ka + 1;
+    %X = ['input for func:',num2str(pa),',',num2str(ka),',',num2str(1-pa),',',num2str(kb),',',num2str(k)];
+    %disp(X);
+    %disp(R0_N);
+end
+disp(0)
+%calcR0_N(0.0051,100,1-0.0051,1,3)
+
+%R0_vec;
+% plot
+% R0_N over ka param (maybe save R0_N w. corr. ka?)
+% what happens over time?
+% line R0_H = smthing
+plot(2:to+1,R0_vec)
+axis([0 70 0 3])
+
+
+R0_vec_2 = zeros(1,to);
+R0_H_input = 1.05;
+for j= 1:to
+    disp(R0_H_input);
+    R0_vec_2(j) = R0_at_end(R0_H_input,1,3,61);
+    R0_H_input = R0_H_input + 0.01;
+    disp(j);
+end
+plot(1.05:0.01:1.64, R0_vec_2)
+axis([1.05 1.7 0 3])
+plot_R0_over_ka(1.5,1,3,2,60)
+
+% TODO - NEXT WEEK
+% 1) ka/kb/R_0-yhteydet jatko
+% 2) konjektuuri?
+% 3) R_0_H rajalle kb:n ja k: suhteen suurella kappa_a vs R_0_N yläraja annetulla R_0_H-arvolla
+% 4) "kyynärpää" - syy/yhtälö
+% 6) R0_H vakio -> yläraja R0_N? vs R0_N -> kb+(1-kb/k) ja R0_N raja-arvo 
+
+% yhtälöpyörittely: 
+% R_0_N pa suhteen (kb=1)ja homo lähellä rajaa? 
+% R_0_N kappa_a:n suhteen ja R_0_H vakio
+% konjektuurin syyt?
+% elbow? func of k
+
+% LISÄKSI:
+% github cont. (virheet -testi - exploratory) 
+% raportti?
+% 
+
+% 2:
+%R0_H-kb/ka-kb = (0.6666)/(99999999)
+% so ans = 6.6660e-09
+% thus e_to_a= 1- 6.6660e-09*(99999999*1)/approx 1 =0.33
+
+% case 1.67 :: 
+%vpasolve(1 == 3*(6.700e-09 + (1-6.700e-09)*0.33-6.70e-09*exp(-(99999999+1)*x)-(1-6.70e-09)*exp(-1*x)*0.33),x)
+
+
+% testing lambda
+%
+% for R0 = 4/3
+% R0_at_end(4/3,1,2,10000) -> 0.6667
+% -log(-(1-2*0.66667)/(2*0.66667))
+% 1.386244354869 vs 1.3863
+%
+% for R0 = 1.5, k=3
+% R0_at_end(1.5,1,3,10000) -> 0.5000
+%  -log(-(1-3*0.5000)/(3*0.5000))
+% 1.09851 vs 1.0986
+%
+% for R0 = 1.6666, k=3
+% R0_at_end(1.6666,1,3,10000000) -> 0.3334
+% -log(-(1-3*0.3334)/(3*0.3334))
+% 8.5173929 vs 8.5174
+% R0_at_end(1.666666666,1,3,10000000) -> 0.33333334
+% -log(-(1-3*0.333333334)/(3*0.333333334))
+% 20.03011832 vs 20.0301
+
+%
+% for R0 = 1.749999, k=4
+% R0_at_end(1.749999,1,4,10000000) -> 0.2500
+% -log(-(1-4*0.250001)/(4*0.250001))
+% 12.4292198 vs 12.4292
+% R0_at_end(1.74999999,1,4,1000000000000000000)
+% -log(-(1-4*0.25000001)/(4*0.2500001))
+% 17.034386 vs 17.0344
+% increasing accuracy (of R0 and ka limit) brings us closer to the zero border in lambda's
+% equation - machine precision becomes an issue
+% but the definitions still agree
+
+% R0_at_end(1.99899999,1,1000,100010)
+% e_to_a = 9.9003e-04 -> 0.0010
+% lambda:
+%11.5028962
+% -log(-(1-1000*1.00001e-03)/(1000*1.00001e-03)) ans = 11.5129
