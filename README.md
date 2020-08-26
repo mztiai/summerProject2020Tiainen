@@ -10,7 +10,7 @@ TODO:
 ## Introduction
 This repository contains 
 - 1 code for a summer project concerning an epidemic model including two simulation codes, plotting and utility code, estimation, as well as exploratory ramblings. All code was written in R, with some inspirations from iGraph and [2,3] (all in main folder) 
-- 2 Matlab code (in /R0 stuff)for exploration of example 1.4.5. of [1], including functions and one example file for exploration 
+- 2 Matlab code (in /Matlab)for exploration of example 1.4.5. of [1], including functions and one example file for exploration 
 
 ## Running and technical details
 The R-code uses only two nonstandard packages, the previously mentioned "iGraph" (which isn't needed for the functions and is only used in the exploratory code) and "collections" (see https://randy3k.github.io/collections/index.html for more). The R version used was 3.6.1, but earlier versions could probably also suffice. Matlab was written in version R2020a, and uses the vpasolve-function from the Symbolic Math Toolbox™.
