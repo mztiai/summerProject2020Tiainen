@@ -13,7 +13,7 @@ This repository contains
 - 2 Matlab code (in /R0 stuff)for exploration of example 1.4.5. of [1], including functions and one example file for exploration 
 
 ## Running and technical details
-The R-code uses only two nonstandard packages, the previously mentioned "iGraph" (which isn't needed for the functions) and "collections" (see https://randy3k.github.io/collections/index.html for more). I'm unaware of what version of R suffices to run everything. Matlab was written in version R2020a, and uses the vpasolve-function from the Symbolic Math Toolbox™.
+The R-code uses only two nonstandard packages, the previously mentioned "iGraph" (which isn't needed for the functions and is only used in the exploratory code) and "collections" (see https://randy3k.github.io/collections/index.html for more). The R version used was 3.6.1, but earlier versions could probably also suffice. Matlab was written in version R2020a, and uses the vpasolve-function from the Symbolic Math Toolbox™.
 
 ## R - MODEL EXPLANATION
 We model the behaviour of an epidemic (alternatively epidemic events such as club visits etc.) by assuming a stochastic infectivity profile for individuals. That is, indiciduals belong to one of two types , with all infectivity focused on one point in time . Thus an infected individual remains infected for some time, after which they priduce all infections at the end of the infection after which they recover. There are both cases with a constant time, as well as a mean time with continuous time distributions included. Tihs is similar to behaviour of age-dependent branching processes, and was originally due to counterexamples in [1,4], which sought to show counterexamples to ordering of R0 given different heterogenities. 
