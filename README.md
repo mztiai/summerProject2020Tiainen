@@ -1,19 +1,13 @@
 # summerProject2020Tiainen
 
-TODO:
-- [ ]  check everything works (names, dependencies, later fixes, problems)
-- [ ] no errors!
-- [ ] exploratory code missing (existing discr, cont., and previous iGraph)
-- [ ] plots?
-- [ ] reproduce earlier results to check!
 
 ## Introduction
-This repository contains 
-- 1 code for a summer project concerning an epidemic model including two simulation codes, plotting and utility code, estimation, as well as exploratory ramblings. All code was written in R, with some inspirations from iGraph and [2,3] (all in main folder) 
-- 2 Matlab code (in /R0 stuff)for exploration of example 1.4.5. of [1], including functions and one example file for exploration 
+This repository contains a simple simulation and some exploratory code to accompany theoretical results (elsewhere) regarding a Dirac-type epidemic. The two main parts are:
+- 1 R-code for generating epidemics with different params and assumptions. All code was written in R, with some inspirations from iGraph and [2,3] (all in main folder) 
+- 2 Matlab code (in /R0 stuff) for exploration of example 1.4.5. of [1], including functions and one example file for exploration 
 
 ## Running and technical details
-The R-code uses only two nonstandard packages, the previously mentioned "iGraph" (which isn't needed for the functions and is only used in the exploratory code) and "collections" (see https://randy3k.github.io/collections/index.html for more). The R version used was 3.6.1, but earlier versions could probably also suffice. Matlab was written in version R2020a, and uses the vpasolve-function from the Symbolic Math Toolbox™.
+The R-code uses only two nonstandard packages, the previously mentioned "iGraph" (which isn't needed for the functions and is only used in one part of the exploratory code) and "collections" (see https://randy3k.github.io/collections/index.html for more). The R version used was 3.6.1, but earlier versions could probably also suffice. Matlab was written in version R2020a, and uses the vpasolve-function from the Symbolic Math Toolbox™.
 
 ## R - MODEL EXPLANATION
 We model the behaviour of an epidemic (alternatively epidemic events such as club visits etc.) by assuming a stochastic infectivity profile for individuals. That is, indiciduals belong to one of two types , with all infectivity focused on one point in time . Thus an infected individual remains infected for some time, after which they priduce all infections at the end of the infection after which they recover. There are both cases with a constant time, as well as a mean time with continuous time distributions included. Tihs is similar to behaviour of age-dependent branching processes, and was originally due to counterexamples in [1,4], which sought to show counterexamples to ordering of R0 given different heterogenities. 
@@ -35,7 +29,7 @@ the final size is a limit of R0. Since in our homogenous population these hold. 
 
 ## R -PROBLEMS AND IMPROVEMENTS
 - mentioned issues w. discrete and continuous case
-- complexity, scalability, readibility
+- complexity, scalability, readability are definitely not optimal
 - edge cases, no handling for improper inputs
 - for loops instead of apply-type thinking as in R (but as is everything easier to move to another language if someone were to need that)
 - possible theoretical errors, but these are no fault of the code
