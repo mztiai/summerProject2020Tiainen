@@ -6,6 +6,7 @@ This repository contains a simple simulation and some exploratory code to accomp
 - 1 R-code for generating epidemics with different params and assumptions. All code was written in R, with some inspirations from iGraph and [2,3] (all in main folder) 
 - 2 Matlab code (in /R0 stuff) for exploration of example 1.4.5. of [1], including functions and one example file for exploration 
 
+
 ## Running and technical details
 The R-code uses only two nonstandard packages, the previously mentioned "iGraph" (which isn't needed for the functions and is only used in one part of the exploratory code) and "collections" (see https://randy3k.github.io/collections/index.html for more). The R version used was 3.6.1, but earlier versions could probably also suffice. Matlab was written in version R2020a, and uses the vpasolve-function from the Symbolic Math Toolbox™.
 
